@@ -12,6 +12,7 @@ from urls import (lol_live_game_stats_url, lol_live_game_events_url,
 
 # Disable insecure https warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+requests.adapters.DEFAULT_RETRIES = 5
 
 
 def get_game_events():

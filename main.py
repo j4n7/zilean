@@ -19,21 +19,22 @@ if __name__ == '__main__':
 
     with open(clears_file) as csv_file:
         reader = csv.reader(csv_file)
-        clears = {row[2]: row[5:] for row in reader}
-        del clears['champion']
-        for champion, clear in clears.items():
-            clears[champion] = [parse_time(time) for time in clear]
+        clears = {(row[2], row[3]): row[6:] for row in reader}
+        del clears[('champion', 'start')]
+        for clear, times in clears.items():
+            clears[clear] = [parse_time(time) for time in times]
 
     overlay = Overlay()
+    camera = dxcam.create(output_color='RGBA')
 
-    tray_thread = Thread(target=lambda: TrayIcon(overlay))
-    tray_thread.start()
+    class Start:
+        def __init__(self):
+            self.color = 'blue'
 
+    start = Start()
     start_time = None
     count_time = True
     camp_info = ''
-
-    camera = dxcam.create(output_color='RGBA')
 
     def input_thread():
         def on_press(key):
@@ -83,10 +84,11 @@ if __name__ == '__main__':
                 # print(start_time)
 
                 champion = get_player_champion(get_active_player_name()).lower()
-                clear = clears[champion] if champion in clears else None
 
                 overlay.deiconify()
             elif is_game_live() and start_time:
+
+                clear = clears[(champion, start.color)] if (champion, start.color) in clears else None
 
                 if count_time:
                     current_time = format_time(datetime.now() - start_time)
@@ -97,7 +99,7 @@ if __name__ == '__main__':
                         while cs - 4 >= 0:
                             cs -= 4
                             n += 1
-                        if n < 6:
+                        if clear and n < 6:
                             if clear[n] > datetime.now() - start_time:
                                 time_left = '-' + format_time(clear[n] - (datetime.now() - start_time))
                             else:
@@ -116,6 +118,9 @@ if __name__ == '__main__':
                 # overlay.set_message('Waiting for game...')
                 overlay.withdraw()
                 # print('Waiting for game...', end='\r')
+
+    tray_thread = Thread(target=lambda: TrayIcon(overlay, start))
+    tray_thread.start()
 
     thread = Thread(target=message_thread)
     thread.start()
