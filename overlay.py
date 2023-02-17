@@ -1,6 +1,7 @@
 import tkinter as tk
 # from PIL import Image, ImageTk
 
+import ctypes
 import win32gui
 # import win32con
 # import win32api
@@ -14,6 +15,11 @@ from functions import get_base_dir, parse_time, format_time
 # https://stackoverflow.com/questions/63047053/how-to-replace-a-background-image-in-tkinter
 # https://stackoverflow.com/questions/59334733/resize-photoimage-using-zoom-or-subsample
 # https://stackoverflow.com/questions/29641616/drag-window-when-using-overrideredirect
+
+
+# Avoid Windows DPI sclaing
+# https://stackoverflow.com/questions/44398075/can-dpi-scaling-be-enabled-disabled-programmatically-on-a-per-session-basis
+ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 
 base_dir = get_base_dir()
@@ -78,6 +84,8 @@ class Overlay(tk.Tk):
         super().__init__(*args, **kwargs)
 
         self.overrideredirect(True)  # Deletes Windows' default title bar
+
+        self.tk.call('tk', 'scaling', 1.0)
 
         self.wm_attributes('-alpha', 0.75)
         self.wm_attributes('-transparentcolor', 'grey15')  # str_a_ange color to avoid jagged borders
@@ -172,7 +180,7 @@ class Overlay(tk.Tk):
                             spacing2=5,
                             spacing3=10,
                             border=0,
-                            font=('Tahoma', 16),
+                            font=('Tahoma', 21),
                             fg='white',
                             bg='#1F1F1F',
                             wrap=tk.WORD)
