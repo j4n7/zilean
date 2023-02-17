@@ -6,7 +6,7 @@ from threading import Thread
 from datetime import datetime, timedelta
 from pynput import keyboard, mouse
 
-from functions import get_active_player_name, get_player_champion, is_game_live, get_base_dir, parse_time, format_time
+from functions import get_active_player_name, get_player_champion, is_game_live, parse_time, format_time
 from urls import lol_live_game_stats_url
 from overlay import Overlay
 from trayicon import TrayIcon
@@ -14,11 +14,10 @@ from camera import get_player_cs, region
 
 
 if __name__ == '__main__':
-    base_dir = get_base_dir()
-    clears_file = str(base_dir / 'clears.csv')
-
-    with open(clears_file) as csv_file:
-        reader = csv.reader(csv_file)
+    csv_url = 'https://raw.githubusercontent.com/j4n7/zilean/develop/clears.csv'
+    with requests.get(csv_url, stream=True) as response:
+        lines = (line.decode('utf-8') for line in response.iter_lines())
+        reader = csv.reader(lines)
         clears = {(row[2], row[3]): row[6:] for row in reader}
         del clears[('champion', 'start')]
         for clear, times in clears.items():
