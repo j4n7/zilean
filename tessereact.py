@@ -168,7 +168,7 @@ api = tesseract.TessBaseAPICreate()
 # Parameters for API initialization
 # use xz compressed traineddata file - feature is available in recent github code
 # https://github.com/Shreeshrii/tessdata_shreetest
-lang = 'digits'
+lang = 'eng'
 # OEM_DEFAULT OEM_LSTM_ONLY OEM_TESSERACT_ONLY OEM_TESSERACT_LSTM_COMBINED
 oem = tesseract.OEM_DEFAULT
 # Initialize API, set image and regonize it
