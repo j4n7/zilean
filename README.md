@@ -67,7 +67,11 @@ Some champions have two optimized clears, depending if they start on red or blue
 
 ## Will my LOL account get banned for using Zilean?
 
-No. Zilean is fully compliant with Riot Games' Third-Party Application Terms and Services. It has been submitted to the Third-Party Developers Portal but the resolution is still pending. This section will be updated as soon as I get a response.
+No. It is fully compliant with Riot Games' Third-Party Application Terms and Services. It has been submitted to the Third-Party Developers Portal and has been approved by Riot. See image below:
+
+<p align="center">
+<img src="https://i.ibb.co/5MZC64Z/Zilean-Approved.png" alt="zilean-approved" border="0">
+</p>
 
 
 
