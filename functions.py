@@ -29,7 +29,7 @@ def get_player_list():
 
 def get_active_player_name():
     response = requests.get(lol_live_player_name_url, verify=False)
-    name = json.loads(response.text)
+    name = json.loads(response.text).split('#')[0]
     return name
 
 
